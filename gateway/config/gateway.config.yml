@@ -4,17 +4,17 @@ admin:
   port: 9876
   host: localhost
 apiEndpoints:
-  web:
-    host: localhost
-    paths: '*'
   server:
     host: localhost
     paths: '/server/*'
-serviceEndpoints:
   web:
-    url: 'http://localhost:4200'
+    host: localhost
+    paths: '*'
+serviceEndpoints:
   server:
     url: 'http://localhost:3000'
+  web:
+    url: 'http://localhost:4200'
 policies:
   - basic-auth
   - cors
@@ -25,16 +25,6 @@ policies:
   - proxy
   - rate-limit
 pipelines:
-  webPipeline:
-    apiEndpoints:
-      - web
-    policies:
-    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
-      - proxy:
-          - action:
-              serviceEndpoint: web 
-              changeOrigin: true
   serverPipeline:
     apiEndpoints:
       - server
@@ -46,3 +36,13 @@ pipelines:
               serviceEndpoint: server 
               changeOrigin: true
               stripPath: true
+  webPipeline:
+    apiEndpoints:
+      - web
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: web 
+              changeOrigin: true

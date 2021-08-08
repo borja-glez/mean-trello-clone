@@ -37,6 +37,7 @@ const authResolvers = {
   Query: {
     getAuthenticatedUser: async (_, {}, context) => {
       await checkAuth(context);
+      console.log(context);
       return await getUserById(context.user.id);
     }
   },
@@ -47,6 +48,7 @@ const authResolvers = {
     },
     authenticate: async (_, { input }) => {
       const { email, password } = input;
+      console.log(input);
       return await authenticate(email, password);
     }
   }
